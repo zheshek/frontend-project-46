@@ -12,7 +12,7 @@ describe('Nested structures comparison', () => {
     const file1 = getFixturePath('nested1.json');
     const file2 = getFixturePath('nested2.json');
     const result = genDiff(file1, file2);
-    
+
     expect(result).toContain('+ follow: false');
     expect(result).toContain('- setting2: 200');
     expect(result).toContain('- setting3: true');
@@ -27,7 +27,7 @@ describe('Nested structures comparison', () => {
     const file1 = getFixturePath('nested1.yml');
     const file2 = getFixturePath('nested2.yml');
     const result = genDiff(file1, file2);
-    
+
     expect(result).toContain('+ follow: false');
     expect(result).toContain('- setting2: 200');
     expect(result).toContain('- wow:');

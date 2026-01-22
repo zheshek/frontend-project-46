@@ -59,7 +59,8 @@ const formatStylish = (diff, depth = 1) => {
     }
   });
 
-  return lines.join('\n');
+  const result = lines.join('\n');
+  return depth === 1 ? `{\n${result}\n}` : result;
 };
 
 export default formatStylish;
