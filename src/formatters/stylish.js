@@ -1,4 +1,4 @@
-const makeIndent = (depth) => ' '.repeat(depth * 4 - 2)
+const makeIndent = depth => ' '.repeat(depth * 4 - 2)
 
 const stringify = (value, depth) => {
   if (typeof value !== 'object' || value === null) {
