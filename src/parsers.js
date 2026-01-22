@@ -9,7 +9,7 @@ const getAbsolutePath = (filepath) => {
   return path.resolve(process.cwd(), filepath)
 }
 
-const getFileExtension = (filepath) => path.extname(filepath).toLowerCase()
+const getFileExtension = (filepath) => {path.extname(filepath).toLowerCase()}
 
 const parseFile = (filepath) => {
   const absolutePath = getAbsolutePath(filepath)
