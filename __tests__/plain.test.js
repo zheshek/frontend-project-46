@@ -5,7 +5,7 @@ import genDiff from '../src/index.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename)
+const getFixturePath = filename => join(__dirname, '..', '__fixtures__', filename)
 
 describe('Plain formatter', () => {
   const expected = `Property 'common.follow' was added with value: false

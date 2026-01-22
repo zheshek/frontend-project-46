@@ -5,7 +5,7 @@ import genDiff from '../src/index.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename)
+const getFixturePath = filename => join(__dirname, '..', '__fixtures__', filename)
 
 describe('Nested structures comparison', () => {
   test('should compare nested JSON files', () => {
