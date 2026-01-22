@@ -9,7 +9,15 @@ const getAbsolutePath = (filepath) => {
   return path.resolve(process.cwd(), filepath)
 }
 
-const getFileExtension = (filepath) => {path.extname(filepath).toLowerCase()}
+const getFileExtension = (filepath) => {
+  if (typeof filepath !== 'string') {
+    // Если передали не строку, вернём пустую строку
+    return ''
+  }
+  const ext = path.extname(filepath)
+  // Гарантируем что всегда вернём строку
+  return ext ? ext.toLowerCase() : ''
+}
 
 const parseFile = (filepath) => {
   const absolutePath = getAbsolutePath(filepath)
@@ -23,7 +31,18 @@ const parseFile = (filepath) => {
     case '.yaml':
       return yaml.load(content)
     default:
-      throw new Error(`Unsupported file format: ${extension}`)
+      // Проверяем содержимое файла если расширение не определилось
+      try {
+        // Пробуем сначала как JSON
+        return JSON.parse(content)
+      } catch (jsonError) {
+        // Пробуем как YAML
+        try {
+          return yaml.load(content)
+        } catch (yamlError) {
+          throw new Error(`Unsupported file format. Tried JSON and YAML, but failed: ${jsonError.message}`)
+        }
+      }
   }
 }
 
