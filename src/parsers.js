@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
+import yaml from 'js-yaml';
 
 const getAbsolutePath = (filepath) => {
   if (path.isAbsolute(filepath)) {
@@ -18,6 +19,9 @@ const parseFile = (filepath) => {
   switch (extension) {
     case '.json':
       return JSON.parse(content);
+    case '.yml':
+    case '.yaml':
+      return yaml.load(content);
     default:
       throw new Error(`Unsupported file format: ${extension}`);
   }
