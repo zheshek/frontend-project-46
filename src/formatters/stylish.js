@@ -1,64 +1,48 @@
+const makeIndent = (depth) => ' '.repeat(depth * 4 - 2);
+
 const stringify = (value, depth) => {
   if (typeof value !== 'object' || value === null) {
-    if (typeof value === 'string') {
-      return value;
-    }
     return String(value);
   }
 
-  const indentSize = depth * 4;
-  const currentIndent = ' '.repeat(indentSize);
-  const bracketIndent = ' '.repeat(indentSize - 4);
-
+  const indent = ' '.repeat(depth * 4);
+  const bracketIndent = ' '.repeat(depth * 4 - 4);
   const entries = Object.entries(value);
+  
   const lines = entries.map(([key, val]) => {
-    const formattedValue = stringify(val, depth + 1);
-    return `${currentIndent}${key}: ${formattedValue}`;
+    return `${indent}${key}: ${stringify(val, depth + 1)}`;
   });
-
+  
   return `{\n${lines.join('\n')}\n${bracketIndent}}`;
 };
 
 const formatStylish = (diff, depth = 1) => {
-  const indentSize = depth * 4 - 2;
-  const indent = ' '.repeat(indentSize);
-
+  const indent = makeIndent(depth);
+  
   const lines = diff.map((node) => {
     const { key, type } = node;
-
+    
     switch (type) {
-      case 'added': {
-        const { value } = node;
-        const formattedValue = stringify(value, depth + 1);
-        return `${indent}+ ${key}: ${formattedValue}`;
-      }
-      case 'removed': {
-        const { value } = node;
-        const formattedValue = stringify(value, depth + 1);
-        return `${indent}- ${key}: ${formattedValue}`;
-      }
-      case 'unchanged': {
-        const { value } = node;
-        const formattedValue = stringify(value, depth + 1);
-        return `${indent}  ${key}: ${formattedValue}`;
-      }
+      case 'added':
+        return `${indent}+ ${key}: ${stringify(node.value, depth + 1)}`;
+      case 'removed':
+        return `${indent}- ${key}: ${stringify(node.value, depth + 1)}`;
+      case 'unchanged':
+        return `${indent}  ${key}: ${stringify(node.value, depth + 1)}`;
       case 'changed': {
-        const { oldValue, newValue } = node;
-        const oldFormatted = stringify(oldValue, depth + 1);
-        const newFormatted = stringify(newValue, depth + 1);
-        return `${indent}- ${key}: ${oldFormatted}\n${indent}+ ${key}: ${newFormatted}`;
+        const oldStr = stringify(node.oldValue, depth + 1);
+        const newStr = stringify(node.newValue, depth + 1);
+        return `${indent}- ${key}: ${oldStr}\n${indent}+ ${key}: ${newStr}`;
       }
       case 'nested': {
-        const { children } = node;
-        const formattedChildren = formatStylish(children, depth + 1);
-        const nestedIndent = ' '.repeat(indentSize - 2);
-        return `${indent}  ${key}: {\n${formattedChildren}\n${nestedIndent}  }`;
+        const childrenStr = formatStylish(node.children, depth + 1);
+        return `${indent}  ${key}: {\n${childrenStr}\n${indent}  }`;
       }
       default:
-        throw new Error(`Unknown node type: ${type}`);
+        throw new Error(`Unknown type: ${type}`);
     }
   });
-
+  
   const result = lines.join('\n');
   return depth === 1 ? `{\n${result}\n}` : result;
 };
