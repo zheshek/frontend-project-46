@@ -1,166 +1,40 @@
-# Difference Calculator (gendiff)
+GenDiff
 
-[![Tests](https://github.com/zheshek/frontend-project-46/actions/workflows/test.yml/badge.svg)](https://github.com/zheshek/frontend-project-46/actions/workflows/test.yml)
+GenDiff — это CLI-утилита, которая сравнивает два файла конфигурации и показывает разницу между ними.
 
-A command-line utility for finding differences between configuration files.
+Программа поддерживает форматы JSON и YAML и может выводить различия в нескольких форматах.
 
-## Installation
+🚀 Возможности
 
-### As a CLI tool:
-```bash
-npm install -g @hexlet/code
-As a library:
-bash
-npm install @hexlet/code
-Usage
-CLI Usage
-bash
-gendiff [options] <filepath1> <filepath2>
-Options:
--V, --version - output version number
+📂 Сравнение двух конфигурационных файлов
+📄 Поддержка форматов JSON и YAML
+🧩 Рекурсивное сравнение вложенных структур
+📊 Несколько форматов вывода:
 
--f, --format <type> - output format: stylish, plain, json (default: stylish)
+stylish — древовидный формат (по умолчанию)
 
--h, --help - display help
+plain — текстовое описание изменений
 
-Examples:
-Compare two JSON files (default stylish format):
-bash
-gendiff file1.json file2.json
-Compare with plain format:
-bash
-gendiff file1.json file2.json --format plain
-# or
-gendiff file1.json file2.json -f plain
-Compare with JSON format:
-bash
-gendiff file1.json file2.json --format json
-Compare YAML files:
-bash
-gendiff file1.yml file2.yml
-Mixed formats (JSON and YAML):
-bash
-gendiff file1.json file2.yml
-Supported Formats
-Input Formats:
-JSON (.json)
+json — вывод в JSON
 
-YAML (.yml, .yaml)
+⚡ Быстрая работа через CLI
 
-Output Formats:
-1. Stylish (default)
-Human-readable tree format with +/- indicators:
+🛠 Технологии
 
-```
-{
-common: {
-+ follow: false
-setting1: Value 1
-- setting2: 200
-- setting3: true
-+ setting3: null
-+ setting4: blah blah
-}
-}
-```
+Проект реализован на Node.js и использует следующие инструменты:
 
-2. Plain
-Flat text description of changes:
+Основные зависимости
 
-```
-Property 'common.follow' was added with value: false
-Property 'common.setting2' was removed
-Property 'common.setting3' was updated. From true to null
-Property 'common.setting4' was added with value: 'blah blah'
-```
+Node.js
 
-3. JSON
-Machine-readable JSON output:
+lodash — работа с объектами
 
-```json
-[
-{
-"key": "follow",
-"type": "added",
-"value": false
-},
-{
-"key": "setting2",
-"type": "removed",
-"value": 200
-}
-]
-```
+js-yaml — парсинг YAML
 
-Library Usage
-You can also use it as a library in your JavaScript/Node.js projects:
+commander — CLI интерфейс
 
-```javascript
-import genDiff from '@hexlet/code';
+Dev-инструменты
 
-// Compare files
-const diff = genDiff('file1.json', 'file2.json');
-console.log(diff);
+Jest — тестирование
 
-// With specific format
-const plainDiff = genDiff('file1.yml', 'file2.yml', 'plain');
-const jsonDiff = genDiff('file1.json', 'file2.json', 'json');
-```
-
-Development
-Setup:
-```bash
-git clone https://github.com/zheshek/frontend-project-46.git
-cd frontend-project-46
-npm install
-```
-
-Available Commands:
-npm test - run tests
-
-npm run lint - run linter
-
-npm run gendiff - run CLI tool
-
-npm run coverage - generate test coverage
-
-Project Structure:
-```
-frontend-project-46/
-├── src/
-│ ├── index.js # Main entry point
-│ ├── parsers.js # File parsers (JSON/YAML)
-│ ├── buildDiff.js # Diff building logic
-│ └── formatters/ # Output formatters
-│ ├── index.js # Formatter factory
-│ ├── stylish.js # Stylish formatter
-│ ├── plain.js # Plain formatter
-│ └── json.js # JSON formatter
-├── bin/
-│ └── gendiff.js # CLI entry point
-├── fixtures/ # Test data
-├── tests/ # Test files
-└── .github/workflows/ # CI configuration
-```
-
-Requirements
-Node.js 14.x or higher
-
-npm 6.x or higher
-
-Demo
-https://asciinema.org/a/YOUR_ASCII_CAST_ID.svg
-
-Contributing
-Fork the repository
-
-Create a feature branch
-
-Commit your changes
-
-Push to the branch
-
-Create a Pull Request
-
-License
-ISC
+ESLint (Airbnb config) — проверка кода
